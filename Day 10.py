@@ -1,11 +1,9 @@
 from typing import List
 import bisect
-
 class SegmentTree:
     def __init__(self, n):
         self.n = n
         self.tree = [0] * (4 * n)
-
     def update(self, idx, val, node=1, l=0, r=None):
         if r is None:
             r = self.n - 1
@@ -17,8 +15,10 @@ class SegmentTree:
             self.update(idx, val, node * 2, l, mid)
         else:
             self.update(idx, val, node * 2 + 1, mid + 1, r)
-        self.tree[node] = max(self.tree[node * 2], self.tree[node * 2 + 1])
-
+        self.tree[node] = max(
+            self.tree[node * 2],
+            self.tree[node * 2 + 1]
+        )
     def query(self, ql, qr, node=1, l=0, r=None):
         if r is None:
             r = self.n - 1
@@ -31,7 +31,6 @@ class SegmentTree:
             self.query(ql, qr, node * 2, l, mid),
             self.query(ql, qr, node * 2 + 1, mid + 1, r)
         )
-
 class Solution:
     def getResults(self, queries: List[List[int]]) -> List[bool]:
         MAXX = max(q[1] for q in queries) + 1
